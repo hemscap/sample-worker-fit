@@ -1,0 +1,16 @@
+services:
+  sample-app:
+    hostname: sample-app
+    container_name: sample-app
+    image: sample-app
+    restart: always
+
+    build:
+      context: .
+      dockerfile: docker-file
+
+    ports:
+      - 3138:3000
+
+    volumes:
+      - ./db-volumn:/sample-app/database/

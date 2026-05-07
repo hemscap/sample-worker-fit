@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Home</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Fontawesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+
+  <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+
+</head>
+
+<body class="min-h-screen">
+
+  <!-- Floating Links -->
+  <div class="fixed top-5 right-5 px-1 py-1 flex gap-1 z-50 border rounded-full border-gray-300 bg-white">
+
+    <a target="_blank" href="https://test.hemscap.com">
+      <img src="/images/Hemscap.svg" class="w-10 h-10 rounded-full" />
+    </a>
+
+    <a target="_blank" href="https://platform.hemscap.com/auth/login">
+      <img src="/images/Platform.svg" class="w-10 h-10 rounded-full" />
+    </a>
+
+    <a target="_blank" href="https://test.hemscap.com/exercise-engine/introduction">
+      <img src="/images/document.svg" class="w-10 h-10 rounded-full" />
+    </a>
+
+    <a target="_blank" href="https://github.com/hemscap/sample-exercise-engine-usage">
+      <img src="/images/Github.svg" class="w-10 h-10 rounded-full" />
+    </a>
+
+  </div>
+
+  <!-- Error -->
+  <% if (error) { %>
+    <div class="max-w-7xl mx-auto mt-5 mb-6 px-6 py-4 bg-red-100 border border-red-300 text-red-700 rounded-xl">
+      <%= typeof error==='string' ? error : JSON.stringify(error) %>
+    </div>
+    <% } %>
+
+      <div class="max-w-7xl mx-auto px-6 py-8">
+
+        <!-- Header -->
+        <% if (response && response.length> 0) { %>
+          <div class="flex justify-between items-center mb-10">
+
+            <h1 class="text-4xl font-bold text-gray-800">
+              Welcome back
+              <span class="text-blue-600">
+                <%= user ? user.username : 'Guest' %>
+              </span>!
+            </h1>
+
+            <a href="/auth/logout" class="bg-red-500 hover:bg-red-600 text-white px-5 py-2.5 rounded-xl">
+              <i class="fas fa-sign-out-alt"></i> Log Out
+            </a>
+
+          </div>
+          <% } %>
+
+            <!-- FILTER BAR -->
+            <div class="bg-white border border-gray-200 rounded-2xl p-2 mb-4 shadow-sm">
+
+              <form id="filterForm" method="GET" action="/portal/get-my-exercises">
+
+                <div class="flex gap-4 p-2 bg-gray-100 rounded-lg">
+
+                  <!-- SEARCH -->
+                  <div class="relative">
+                    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+
+                    <input name="label" id="searchInput" type="text" placeholder="Search ..."
+                      value="<%= query?.label || '' %>"
+                      class="w-full h-12 flex-1 pl-11 pr-4 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm" />
+                  </div>
+
+                  <select name="posture" id="postureSelect"
+                    class="flex-[2] pl-4  rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm">
+                    <option value="" <%=!query?.posture ? "selected" : "" %>>select posture</option>
+                    <option value="standing" <%=query?.posture==="standing" ? "selected" : "" %>>
+                      Standing
+                    </option>
+                    <option value="sitting" <%=query?.posture==="sitting" ? "selected" : "" %>>
+                      Sitting
+                    </option>
+                    <option value="Sleeping1" <%=query?.posture==="Sleeping1" ? "selected" : "" %>>
+                      Sleeping1
+                    </option>
+                    <option value="Sleeping2" <%=query?.posture==="Sleeping2" ? "selected" : "" %>>
+                      Sleeping2
+                    </option>
+                  </select>
+
+                  <select name="camera" id="cameraSelect"
+                    class="flex-[2] rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm">
+                    <option value="" <%=!query?.camera ? "selected" : "" %>>Select Camera</option>
+                    <option value="front" <%=query?.camera==="front" ? "selected" : "" %>>
+                      Front
+                    </option>
+                    <option value="left" <%=query?.camera==="left" ? "selected" : "" %>>
+                      Left
+                    </option>
+                    <option value="right" <%=query?.camera==="right" ? "selected" : "" %>>
+                      Right
+                    </option>
+                  </select>
+
+                  <select name="exerciseType" id="typeSelect"
+                    class="flex-[2] rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm">
+                    <option value="" <%=!query?.exerciseType ? "selected" : "" %>>Select Type</option>
+                    <option value="rangeofmotion" <%=query?.exerciseType==="rangeofmotion" ? "selected" : "" %>>
+                      Range of motion
+                    </option>
+                    <option value="distance" <%=query?.exerciseType==="distance" ? "selected" : "" %>>
+                      Distance
+                    </option>
+                    <option value="face" <%=query?.exerciseType==="face" ? "selected" : "" %>>
+                      Face
+                    </option>
+                  </select>
+
+                  <select name="targetJoint" id="jointSelect"
+                    class="flex-[2] rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm">
+                    <option value="" <%=!query?.targetJoint ? "selected" : "" %>>Select Joint</option>
+                    <option value="Head" <%=query?.targetJoint==="Head" ? "selected" : "" %>>Head</option>
+                    <option value="Waist" <%=query?.targetJoint==="Waist" ? "selected" : "" %>>Waist</option>
+                    <option value="Left Shoulder" <%=query?.targetJoint==="Left Shoulder" ? "selected" : "" %>>Left
+                      Shoulder</option>
+                    <option value="Right Shoulder" <%=query?.targetJoint==="Right Shoulder" ? "selected" : "" %>>Right
+                      Shoulder</option>
+                    <option value="Left Elbow" <%=query?.targetJoint==="Left Elbow" ? "selected" : "" %>>Left Elbow
+                    </option>
+                    <option value="Right Elbow" <%=query?.targetJoint==="Right Elbow" ? "selected" : "" %>>Right Elbow
+                    </option>
+                    <option value="Left Wrist" <%=query?.targetJoint==="Left Wrist" ? "selected" : "" %>>Left Wrist
+                    </option>
+                    <option value="Right Wrist" <%=query?.targetJoint==="Right Wrist" ? "selected" : "" %>>Right Wrist
+                    </option>
+                    <option value="Left Hip" <%=query?.targetJoint==="Left Hip" ? "selected" : "" %>>Left Hip</option>
+                    <option value="Right Hip" <%=query?.targetJoint==="Right Hip" ? "selected" : "" %>>Right Hip
+                    </option>
+                    <option value="Left Knee" <%=query?.targetJoint==="Left Knee" ? "selected" : "" %>>Left Knee
+                    </option>
+                    <option value="Right Knee" <%=query?.targetJoint==="Right Knee" ? "selected" : "" %>>Right Knee
+                    </option>
+                    <option value="Left Ankle" <%=query?.targetJoint==="Left Ankle" ? "selected" : "" %>>Left Ankle
+                    </option>
+                    <option value="Right Ankle" <%=query?.targetJoint==="Right Ankle" ? "selected" : "" %>>Right Ankle
+                    </option>
+
+
+                  </select>
+
+                  <select name="pushTimelineMode" id="timelineSelect"
+                    class="flex-[2] rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm">
+                    <option value="" <%=!query?.pushTimelineMode ? "selected" : "" %>>Select Timeline</option>
+
+                    <option value="framespersecond" <%=query?.pushTimelineMode==="framespersecond" ? "selected" : "" %>>
+                      Frames Per Second
+                    </option>
+
+                    <option value="pose-changed" <%=query?.pushTimelineMode==="pose-changed" ? "selected" : "" %>>
+                      Pose Changed
+                    </option>
+                  </select>
+
+                </div>
+
+              </form>
+
+            </div>
+
+            <!-- GRID -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 pt-5 border-t">
+
+              <% if (response && response.length> 0) { %>
+                <% response.forEach(exercise=> { %>
+
+                  <div class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition">
+
+                    <img src="<%= `/portal/exercise-image/${exercise.exerciseKey}` %>"
+                      class="w-full h-52 object-cover" />
+
+                    <div class="p-3 border-b flex justify-between items-center">
+
+                      <button onclick="startExercise('<%= exercise.exerciseKey %>')"
+                        class="bg-blue-600 text-white px-4 py-2 rounded-xl">
+                        Start
+                      </button>
+
+                      <div class="flex gap-3 text-gray-400">
+                        <i onclick="editExercise('<%= exercise.exerciseKey %>')" class="fas fa-edit cursor-pointer"></i>
+                        <i onclick="viewExerciseChart('<%= exercise.exerciseKey %>')"
+                          class="fas fa-chart-bar cursor-pointer"></i>
+                        <i onclick="openVideoModal('<%= exercise.exerciseKey %>')"
+                          class="fas fa-video cursor-pointer hover:text-blue-500"></i>
+                      </div>
+
+                    </div>
+
+                    <div class="p-5">
+                      <h3 class="font-semibold text-lg mb-2">
+                        <%= exercise.label %>
+                      </h3>
+                      <p class="text-gray-500 text-sm">
+                        <%= exercise.description || '-' %>
+                      </p>
+                    </div>
+
+                  </div>
+
+                  <% }) %>
+                    <% } else { %>
+
+                      <div class="col-span-full text-center py-20 text-gray-500">
+                        No exercises found.
+                      </div>
+
+                      <% } %>
+
+            </div>
+
+      </div>
+
+      <!-- VIDEO MODAL -->
+      <div id="videoModal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50"
+        onclick="handleModalOutsideClick(event)">
+        <div class="bg-white w-full max-w-3xl rounded-2xl overflow-hidden shadow-xl">
+          <div class="bg-white w-full max-w-3xl rounded-2xl overflow-hidden shadow-xl"
+            onclick="event.stopPropagation()">
+            <!-- Header -->
+            <div class="flex justify-between items-center px-3 py-1 border-b">
+              <button onclick="closeVideoModal()" class="text-gray-500 hover:text-red-500 text-xl">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+
+            <!-- Video Player -->
+            <div class="p-2 relative">
+
+              <!-- Skeleton Loader -->
+              <div id="videoSkeleton"
+                class="absolute inset-0 bg-gray-100 animate-pulse rounded-xl flex items-center justify-center ">
+                <div class="text-gray-400 text-sm p-5 m-5">Loading video...</div>
+              </div>
+
+              <!-- Video Player -->
+              <video id="videoPlayer" controls class="w-full h-[66vh] object-contain rounded-xl bg-black hidden">
+                <source id="videoSource" src="" type="video/mp4" />
+                Your browser does not support video.
+              </video>
+            </div>
+
+          </div>
+        </div>
+        <script>
+          const form = document.getElementById("filterForm");
+
+          ["postureSelect", "cameraSelect", "typeSelect", "jointSelect", "timelineSelect"]
+            .forEach(id => {
+              document.getElementById(id).addEventListener("change", () => form.submit());
+            });
+
+          document.getElementById("searchInput").addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              form.submit();
+            }
+          });
+
+          // BLUR kept (as requested)
+          document.getElementById("searchInput").addEventListener("blur", () => {
+            form.submit();
+          });
+
+          function startExercise(exerciseKey) {
+            window.location.href = `/portal/execute/${exerciseKey}`;
+          }
+          function editExercise(exerciseKey) {
+            const metadata = {}
+            window.location.href = `/portal/modify/${exerciseKey}/${JSON.stringify(metadata)}`;
+          }
+          function viewExerciseChart(exerciseKey) {
+
+            window.location.href = `/result/chart?metadata=${exerciseKey}`;;
+          }
+
+          function openVideoModal(exerciseKey) {
+            const modal = document.getElementById("videoModal");
+
+            const skeleton = document.getElementById("videoSkeleton");
+            const player = document.getElementById("videoPlayer");
+            const source = document.getElementById("videoSource");
+
+            // reset UI
+            player.classList.add("hidden");
+            skeleton.classList.remove("hidden");
+
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+
+            // 🔥 lazy load video (delayed fetch)
+            const videoUrl = `/portal/exercise-video/${exerciseKey}`;
+
+            // small delay for UX smoothness
+            setTimeout(() => {
+              source.src = videoUrl;
+              player.load();
+
+              player.onloadeddata = () => {
+                skeleton.classList.add("hidden");
+                player.classList.remove("hidden");
+              };
+            }, 300);
+          }
+          function closeVideoModal() {
+            const modal = document.getElementById("videoModal");
+            const player = document.getElementById("videoPlayer");
+            const source = document.getElementById("videoSource");
+
+            player.pause();
+            player.currentTime = 0;
+
+            source.src = "";
+            player.load();
+
+            modal.classList.add("hidden");
+            modal.classList.remove("flex");
+          }
+
+          function handleModalOutsideClick(event) {
+            if (event.target.id === "videoModal") {
+              closeVideoModal();
+            }
+          }
+        </script>
+
+</body>
+
+</html>

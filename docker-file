@@ -1,0 +1,12 @@
+FROM oven/bun:latest
+RUN mkdir sample-app
+WORKDIR /sample-app
+
+COPY ./package.json ./package.json
+
+
+RUN bun install
+
+COPY . .
+
+CMD bun start

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Segoe UI', system-ui, sans-serif; }
+  </style>
+</head>
+<body class="bg-gray-50">
+    <div
+      class="fixed top-5 right-0 px-1 py-1 flex justify-center items-center gap-1 z-50 border rounded-full border-gray-300 bg-gray-100 right-5 bg-white"
+    >
+      <!-- Floating corner icons -->
+      <a  target="_blank"
+        href="https://test.hemscap.com"
+        class="text-gray-600 hover:text-blue-600 text-base bg-white shadow-sm rounded-full"
+      >
+        <img
+          src="/images/Hemscap.svg"
+          alt="hemscap"
+          title="hemscap"
+          class="w-10 h-10 rounded-full hover:border hover:border-gray-300"
+        />
+      </a>
+
+      <a  target="_blank"
+        href="https://platform.hemscap.com/auth/login"
+        class="text-gray-600 hover:text-blue-600 text-base bg-white shadow-sm rounded-full"
+      >
+        <img
+          src="/images/Platform.svg"
+          alt="platform"
+          title="platform"
+          class="w-10 h-10 rounded-full hover:border hover:border-gray-300"
+        />
+      </a>
+
+      <a  target="_blank"
+        href="https://test.hemscap.com/exercise-engine/introduction"
+        class="text-gray-600 hover:text-blue-600 text-base bg-white shadow-sm rounded-full"
+      >
+        <img
+          src="/images/document.svg"
+          alt="document"
+          title="document"
+          class="w-10 h-10 rounded-full hover:border hover:border-gray-300"
+        />
+      </a>
+
+      <a  target="_blank"
+        href="https://github.com/hemscap/sample-exercise-engine-usage"
+        class="text-gray-600 hover:text-blue-600 text-base bg-white shadow-sm rounded-full"
+      >
+        <img
+          src="/images/Github.svg"
+          alt="github"
+          title="github"
+          class="w-10 h-10 rounded-full hover:border hover:border-gray-300"
+        />
+      </a>
+    </div>
+  <div class="min-h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
+      <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">Create Account</h2>
+      
+      <% if (error) { %>
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+          <%= error %>
+        </div>
+      <% } %>
+
+      <form method="POST" action="/auth/register" autocomplete="off" class="space-y-6">
+        <div>
+          <input type="text" name="username" autocomplete="off"
+                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                 placeholder="Username" required>
+        </div>
+        <div>
+          <input type="email" name="email" autocomplete="off"
+                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                 placeholder="Email Address" required>
+        </div>
+        <div>
+          <input type="password" name="password" autocomplete="new-password"
+                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                 placeholder="Password" required>
+        </div>
+        <button type="submit"
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3.5 rounded-lg transition">
+          Register
+        </button>
+      </form>
+
+      <p class="text-center mt-6 text-gray-600">
+        Already have an account? 
+        <a href="/auth/login" class="text-blue-600 hover:underline font-medium">Login</a>
+      </p>
+    </div>
+  </div>
+</body>
+</html>

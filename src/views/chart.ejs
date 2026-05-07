@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Chart View</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- FIXED FontAwesome (was incorrect before) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      #chart-container {
+        position: relative;
+        height: calc(100vh - 90px);
+        overflow: hidden;
+      }
+    </style>
+  </head>
+
+  <body class="bg-gray-100">
+    <div
+      class="fixed top-5 right-0 px-1 py-1 flex justify-center items-center gap-1 z-50 border rounded-full border-gray-300 bg-gray-100 right-5 bg-white"
+    >
+      <!-- Floating corner icons -->
+      <a
+        target="_blank"
+        href="https://test.hemscap.com"
+        class="text-gray-600 hover:text-blue-600 text-base bg-white shadow-sm rounded-full"
+      >
+        <img
+          src="/images/Hemscap.svg"
+          alt="hemscap"
+          title="hemscap"
+          class="w-10 h-10 rounded-full hover:border hover:border-gray-300"
+        />
+      </a>
+
+      <a
+        target="_blank"
+        href="https://platform.hemscap.com/auth/login"
+        class="text-gray-600 hover:text-blue-600 text-base bg-white shadow-sm rounded-full"
+      >
+        <img
+          src="/images/Platform.svg"
+          alt="platform"
+          title="platform"
+          class="w-10 h-10 rounded-full hover:border hover:border-gray-300"
+        />
+      </a>
+
+      <a
+        target="_blank"
+        href="https://test.hemscap.com/exercise-engine/introduction"
+        class="text-gray-600 hover:text-blue-600 text-base bg-white shadow-sm rounded-full"
+      >
+        <img
+          src="/images/document.svg"
+          alt="document"
+          title="document"
+          class="w-10 h-10 rounded-full hover:border hover:border-gray-300"
+        />
+      </a>
+
+      <a
+        target="_blank"
+        href="https://github.com/hemscap/sample-exercise-engine-usage"
+        class="text-gray-600 hover:text-blue-600 text-base bg-white shadow-sm rounded-full"
+      >
+        <img
+          src="/images/Github.svg"
+          alt="github"
+          title="github"
+          class="w-10 h-10 rounded-full hover:border hover:border-gray-300"
+        />
+      </a>
+    </div>
+    <!-- Header -->
+    <div
+      class="max-w-5xl mx-auto px-6 py-6 flex justify-between items-center border-b-2 border-gray-500 bg-gray-100"
+    >
+      <!-- Left -->
+      <div>
+        <h1 class="text-3xl font-bold text-gray-800">Chart View</h1>
+        <p class="text-sm text-gray-500">
+          Visualizing exercise performance data
+        </p>
+      </div>
+
+      <!-- Right -->
+      <div class="flex items-center gap-4">
+        <!-- Back button -->
+        <button
+          onclick="goBack()"
+          class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-medium transition ml-2"
+        >
+          <i class="fas fa-arrow-left"></i>
+          Back
+        </button>
+      </div>
+    </div>
+
+    <!-- No Data Message -->
+    <div
+      id="no-data-message"
+      class="hidden max-w-4xl mx-auto mt-6 p-5 bg-yellow-100 text-yellow-800 rounded-xl text-center font-medium"
+    ></div>
+
+    <!-- Chart -->
+    <div id="chart-container"></div>
+
+    <script src="https://echarts.apache.org/en/js/vendors/echarts/dist/echarts.min.js"></script>
+
+<script>
+  function goBack() {
+    window.location.replace("/portal/get-my-exercises");
+  }
+
+  const rawData = <%- JSON.stringify(data) %>;
+  const cyclesData = <%- JSON.stringify(cycles) %>;
+
+  const angleData = rawData?.angles || {};
+  const distanceData = rawData?.distances || {};
+
+  const hasAngles = Object.keys(angleData).length > 0;
+  const hasDistances = Object.keys(distanceData).length > 0;
+
+  const messageBox = document.getElementById("no-data-message");
+  const chartContainer = document.getElementById("chart-container");
+
+  // -------------------------------
+  // No data at all
+  // -------------------------------
+  if (!hasAngles && !hasDistances) {
+    chartContainer.style.display = "none";
+
+    messageBox.classList.remove("hidden");
+    messageBox.innerHTML = "No data available for this workout.";
+  } else {
+
+    chartContainer.innerHTML = "";
+    chartContainer.style.display = "block";
+
+    // -------------------------------
+    // Create wrapper
+    // -------------------------------
+    function createWrapper() {
+      const wrapper = document.createElement("div");
+      wrapper.style.height = "50%";
+      wrapper.style.width = "100%";
+      chartContainer.appendChild(wrapper);
+      return wrapper;
+    }
+
+    // -------------------------------
+    // Create chart or empty state
+    // -------------------------------
+    function renderChart(wrapper, title, inputData, yName, yMax, hasData) {
+
+      if (!hasData) {
+        wrapper.innerHTML = `
+          <div style="
+            height:100%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#888;
+            font-size:14px;
+          ">
+            No ${title.toLowerCase()} data available
+          </div>
+        `;
+        return;
+      }
+
+      const series = Object.entries(inputData).map(([name, points]) => ({
+        name,
+        type: "line",
+        smooth: true,
+        data: points.map(p => [p.x, p.y]),
+        markArea: {
+          itemStyle: {
+            color: "rgba(0, 255, 0, 0.1)"
+          },
+          data: cyclesData
+        }
+      }));
+
+      const option = {
+        title: { text: title },
+        tooltip: { trigger: "axis" },
+        legend: { data: Object.keys(inputData) },
+        xAxis: {
+          type: "time",
+          name: "Time"
+        },
+        yAxis: {
+          type: "value",
+          name: yName,
+          min: 0,
+          max: yMax
+        },
+        series
+      };
+
+      const chart = echarts.init(wrapper);
+      chart.setOption(option);
+
+      window.addEventListener("resize", () => chart.resize());
+    }
+
+    // -------------------------------
+    // Always render both
+    // -------------------------------
+
+    const angleWrapper = createWrapper();
+    renderChart(
+      angleWrapper,
+      "Angles Chart",
+      angleData,
+      "Angle (°)",
+      360,
+      hasAngles
+    );
+
+    const distanceWrapper = createWrapper();
+    renderChart(
+      distanceWrapper,
+      "Distance Chart",
+      distanceData,
+      "Percent (%)",
+      100,
+      hasDistances
+    );
+  }
+</script>
+  </body>
+</html>
