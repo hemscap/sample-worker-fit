@@ -1,7 +1,10 @@
 # API Response Documentation
 
 ## Overview
-This API response provides a structured JSON object containing data related to body pose detection, joint angles, and their corresponding timing. The data is organized into two primary sections: `cycles` and `timelines`.
+This API response provides a structured JSON object containing data related to **Body Pose** detection, joint angles, and their corresponding timing. The system monitors the user's physical orientation and movements to categorize them into cycles and continuous timelines.
+
+### Key Concepts
+* **Body Pose**: The specific orientation or position of the user's body limbs and torso at a given moment, recognized by the detection engine.
 
 ---
 
@@ -11,52 +14,58 @@ The root response consists of two main arrays:
 | Field Name | Data Type | Description |
 | :--- | :--- | :--- |
 | `cycles` | Array of Objects | A list of movement cycles. Each cycle includes start/end times and a collection of specific poses. |
-| `timelines` | Array of Objects | A continuous temporal stream of events, including recognized poses and "gap" periods (transitions between poses). |
+| `timelines` | Array of Objects | A continuous temporal stream of events, including recognized poses and "gap" periods. |
 
 ---
 
 ## 1. Cycles Object
 Each item in the `cycles` array represents a general time frame containing recognized physical movements.
 
+* **Cycle**: A complete set of movements or a single repetition of an exercise, beginning from the first recognized pose and ending at the conclusion of the last pose in that sequence.
+
 | Field Name | Data Type | Description |
 | :--- | :--- | :--- |
 | `from` | Number (Timestamp) | The start time of the cycle in Unix Timestamp format (milliseconds). |
 | `to` | Number (Timestamp) | The end time of the cycle in Unix Timestamp format (milliseconds). |
-| `poses` | Array of Objects | An array of specific Poses performed during this cycle. |
+| `poses` | Array of Objects | An array of specific recognized positions performed during this cycle. |
 
 ### Poses Sub-Object (Within Cycles)
+* **Poses**: These are discrete, predefined target positions that a user must reach to complete parts of a cycle (e.g., the "up" or "down" position of a squat).
+
 | Field Name | Data Type | Description |
 | :--- | :--- | :--- |
 | `id` | String (UUID) | Unique identifier for this specific pose occurrence. |
 | `from` / `to` | Number | Precise start and end timestamps for this pose. |
-| `poseId` | String (UUID) | Reference ID for the type of pose (e.g., specific ID for "Pose 1"). |
+| `poseId` | String (UUID) | Reference ID for the type of pose. |
 | `poseName` | String | The human-readable name of the pose (e.g., "pose 1"). |
-| `angels` | Object | An object containing joint angles measured during the pose. |
-| `conditionPoses` | Array | An array of conditional states or sub-poses (if applicable). |
+| `angles` | Object | Numerical values representing the joint angles measured during this pose. |
 
 ---
 
 ## 2. Timelines Object
-The `timelines` section represents a continuous sequence of time segments, covering both recognized poses and the intervals (gaps) between them.
+The `timelines` section represents a continuous sequence of time segments.
+
+### Pose vs. Gap
+In the timeline, every segment is classified into one of two states:
+* **In Pose**: The user is currently maintaining a recognized target position.
+* **In Gap**: The transition period between two poses. A "Gap" represents the movement or "travel time" where the user has left one pose but has not yet reached the next recognized one.
 
 | Field Name | Data Type | Status | Description |
 | :--- | :--- | :--- | :--- |
 | `id` | String (UUID) | Required | Unique identifier for this timeline segment. |
 | `from` / `to` | Number | Required | Start and end timestamps for the segment. |
-| `poseId` / `poseName` | String | Optional | Only populated when the system detects a valid pose. Remains null during gaps. |
-| `angels` | Object | Required | Recorded joint angles (calculated continuously, even during transitions/gaps). |
+| `poseId` / `poseName` | String | Optional | Populated if the segment is a **Pose**. Null/Empty if the segment is a **Gap**. |
+| `angles` | Object | Required | Continuous recording of angles, providing data during both poses and gaps. |
 
 ---
 
-## Joint Angles Object (Angels)
-This object maps specific body parts to their measured angles in degrees.
+## Joint Angles Object (angles)
+* **Joint Angles**: The relative angle (measured in degrees) between two connected body segments (e.g., the angle at the elbow or shoulder), used to verify the correctness of a pose.
 
 | Field Name (Example) | Data Type | Description |
 | :--- | :--- | :--- |
 | `Left Shoulder` | Number | Measured angle of the left shoulder joint. |
 | `Left Elbow` | Number | Measured angle of the left elbow joint. |
-
-> **Note:** Depending on the system configuration, this object may include other joints such as `Right Shoulder`, `Knees`, etc.
 
 ---
 
@@ -74,7 +83,7 @@ This object maps specific body parts to their measured angles in degrees.
           "to": 1777973694708,
           "poseId": "b063148e-1050-4be0-af04-60a6c3420844",
           "poseName": "pose 1",
-          "angels": {
+          "angles": {
             "Left Shoulder": 20,
             "Left Elbow": 26
           },
@@ -89,7 +98,7 @@ This object maps specific body parts to their measured angles in degrees.
       "id": "dd175807-68ab-4c51-b6c5-8e0c7d08e6f0",
       "from": 1777973688163,
       "to": 1777973689026,
-      "angels": {
+      "angles": {
         "Left Shoulder": 60,
         "Left Elbow": 16
       }
