@@ -1,64 +1,66 @@
-# مستندات خروجی API (API Response Documentation)
+# API Response Documentation
 
-## معرفی کلی (Overview)
-خروجی این API یک آبجکت JSON است که اطلاعات مربوط به تشخیص حالت‌های بدن (Poses)، زوایای مفاصل و زمان‌بندی آن‌ها را در دو بخش اصلی به نام‌های `cycles` (دوره‌ها) و `timelines` (خطوط زمانی) ارائه می‌دهد.
-
----
-
-## ساختار اصلی (Root Object)
-خروجی اصلی شامل دو آرایه (Array) است:
-
-| نام فیلد | نوع داده (Type) | توضیحات |
-| :--- | :--- | :--- |
-| `cycles` | Array of Objects | لیستی از دوره‌های حرکتی. هر دوره شامل زمان شروع، پایان و مجموعه‌ای از ژست‌ها (poses) است. |
-| `timelines` | Array of Objects | یک خط زمانی پیوسته شامل زمان‌بندی پوزیشن‌های شناخته شده و زمان‌های gap (فواصل بین حرکات). |
+## Overview
+This API response provides a structured JSON object containing data related to body pose detection, joint angles, and their corresponding timing. The data is organized into two primary sections: `cycles` and `timelines`.
 
 ---
 
-## ۱. شیء دوره‌ها (Cycles Object)
-هر آیتم در آرایه `cycles` نشان‌دهنده یک بازه زمانی کلی است که شامل چند ژست مشخص می‌شود.
+## Root Object
+The root response consists of two main arrays:
 
-| نام فیلد | نوع داده | توضیحات |
+| Field Name | Data Type | Description |
 | :--- | :--- | :--- |
-| `from` | Number (Timestamp) | زمان شروع دوره به فرمت Unix Timestamp (میلی‌ثانیه). |
-| `to` | Number (Timestamp) | زمان پایان دوره به فرمت Unix Timestamp (میلی‌ثانیه). |
-| `poses` | Array of Objects | آرایه‌ای از ژست‌های (Poses) انجام شده در طول این دوره. |
-
-### زیرمجموعه Poses (درون Cycles)
-| نام فیلد | نوع داده | توضیحات |
-| :--- | :--- | :--- |
-| `id` | String (UUID) | شناسه منحصربه‌فرد برای این رخداد در سیستم. |
-| `from` / `to` | Number | زمان دقیق شروع و پایان این pose. |
-| `poseId` | String (UUID) | شناسه مرجع مربوط به نوع ژست (مثلاً Pose 1). |
-| `poseName` | String | نام یا عنوان ژست (مثال: "pose 1"). |
-| `angels` | Object | آبجکتی شامل زوایای مفاصل مختلف بدن. |
-| `conditionPoses` | Array | آرایه‌ای از شرایط یا وضعیت‌های وابسته (در صورت وجود). |
+| `cycles` | Array of Objects | A list of movement cycles. Each cycle includes start/end times and a collection of specific poses. |
+| `timelines` | Array of Objects | A continuous temporal stream of events, including recognized poses and "gap" periods (transitions between poses). |
 
 ---
 
-## ۲. شیء خطوط زمانی (Timelines Object)
-این بخش یک جریان پیوسته از زمان است که هم ژست‌ها و هم فواصل انتقال (gap) را پوشش می‌دهد.
+## 1. Cycles Object
+Each item in the `cycles` array represents a general time frame containing recognized physical movements.
 
-| نام فیلد | نوع داده | وضعیت | توضیحات |
+| Field Name | Data Type | Description |
+| :--- | :--- | :--- |
+| `from` | Number (Timestamp) | The start time of the cycle in Unix Timestamp format (milliseconds). |
+| `to` | Number (Timestamp) | The end time of the cycle in Unix Timestamp format (milliseconds). |
+| `poses` | Array of Objects | An array of specific Poses performed during this cycle. |
+
+### Poses Sub-Object (Within Cycles)
+| Field Name | Data Type | Description |
+| :--- | :--- | :--- |
+| `id` | String (UUID) | Unique identifier for this specific pose occurrence. |
+| `from` / `to` | Number | Precise start and end timestamps for this pose. |
+| `poseId` | String (UUID) | Reference ID for the type of pose (e.g., specific ID for "Pose 1"). |
+| `poseName` | String | The human-readable name of the pose (e.g., "pose 1"). |
+| `angels` | Object | An object containing joint angles measured during the pose. |
+| `conditionPoses` | Array | An array of conditional states or sub-poses (if applicable). |
+
+---
+
+## 2. Timelines Object
+The `timelines` section represents a continuous sequence of time segments, covering both recognized poses and the intervals (gaps) between them.
+
+| Field Name | Data Type | Status | Description |
 | :--- | :--- | :--- | :--- |
-| `id` | String (UUID) | اجباری | شناسه منحصربه‌فرد این سگمنت زمانی. |
-| `from` / `to` | Number | اجباری | زمان شروع و پایان بخش زمانی. |
-| `poseId` / `poseName` | String | اختیاری | فقط زمانی مقدار دارند که سیستم در موقعیت یک pose مشخص باشد. |
-| `angels` | Object | اجباری | زوایای مفاصل (حتی در حالت gap هم محاسبه می‌شود). |
+| `id` | String (UUID) | Required | Unique identifier for this timeline segment. |
+| `from` / `to` | Number | Required | Start and end timestamps for the segment. |
+| `poseId` / `poseName` | String | Optional | Only populated when the system detects a valid pose. Remains null during gaps. |
+| `angels` | Object | Required | Recorded joint angles (calculated continuously, even during transitions/gaps). |
 
 ---
 
-## ساختار زوایا (Angels / Angles Object)
-این آبجکت زوایای مفاصل را در هر لحظه نشان می‌دهد.
+## Joint Angles Object (Angels)
+This object maps specific body parts to their measured angles in degrees.
 
-| نام فیلد (نمونه) | نوع داده | توضیحات |
+| Field Name (Example) | Data Type | Description |
 | :--- | :--- | :--- |
-| `Left Shoulder` | Number | زاویه مفصل شانه چپ (درجه). |
-| `Left Elbow` | Number | زاویه مفصل آرنج چپ (درجه). |
+| `Left Shoulder` | Number | Measured angle of the left shoulder joint. |
+| `Left Elbow` | Number | Measured angle of the left elbow joint. |
+
+> **Note:** Depending on the system configuration, this object may include other joints such as `Right Shoulder`, `Knees`, etc.
 
 ---
 
-## نمونه داده (Payload Example)
+## Payload Example
 
 ```json
 {
