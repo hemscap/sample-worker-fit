@@ -1,5 +1,5 @@
 {
-  "name": "sample-exercise-engine-usage",
+  "name": "sample-worker-fit",
   "module": "index.ts",
   "type": "module",
   "private": true,

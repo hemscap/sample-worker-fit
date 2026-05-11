@@ -15,21 +15,21 @@ A Bun.js sample portal for the Exercise-Engine platform. This repository demonst
 1. Log in to the platform.
    - Use the platform URL provided by our team.
    - Sign In page: https://platform.hemscap.com/auth/login
-   ![Alt text](img/singin.png)
+     ![Alt text](img/singin.png)
 
 2. If you do not have an account, go to the Register page.
    - Fill in your registration details.
    - Submit the registration form.
    - Contact the project team to activate your account.
    - Register page: https://platform.hemscap.com/auth/register
-   ![Alt text](img/singup.png)
+     ![Alt text](img/singup.png)
 
 3. After logging in, open the token management page.
    - Create one or more tokens based on the project needs.
    - Each token can have different permissions, Backurl, and Webhook settings.
    - Use the token settings that match your integration requirements.
    - Create multiple tokens:
-   ![Alt text](img/tokens.png)
+     ![Alt text](img/tokens.png)
 
 4. Copy the generated token and paste it into the `.env` file as `ACCESS_TOKEN`.
 
@@ -54,11 +54,11 @@ Before you run the project, make sure you have Bun installed.
 
 1. Clone the Git repository:
    ```bash
-   git clone https://github.com/git-bakhshabadi/sample-exercise-engine-usage.git
+   git clone https://github.com/git-bakhshabadi/sample-worker-fit.git
    ```
 2. Go to the project folder:
    ```bash
-   cd sample-exercise-engine-usage
+   cd sample-worker-fit
    ```
 3. Install Bun dependencies:
    ```bash

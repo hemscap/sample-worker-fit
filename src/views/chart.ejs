@@ -71,7 +71,7 @@
 
       <a
         target="_blank"
-        href="https://github.com/hemscap/sample-exercise-engine-usage"
+        href="https://github.com/hemscap/sample-worker-fit"
         class="text-gray-600 hover:text-blue-600 text-base bg-white shadow-sm rounded-full"
       >
         <img
@@ -118,128 +118,128 @@
 
     <script src="https://echarts.apache.org/en/js/vendors/echarts/dist/echarts.min.js"></script>
 
-<script>
-  function goBack() {
-    window.location.replace("/portal/get-my-exercises");
-  }
-
-  const rawData = <%- JSON.stringify(data) %>;
-  const cyclesData = <%- JSON.stringify(cycles) %>;
-
-  const angleData = rawData?.angles || {};
-  const distanceData = rawData?.distances || {};
-
-  const hasAngles = Object.keys(angleData).length > 0;
-  const hasDistances = Object.keys(distanceData).length > 0;
-
-  const messageBox = document.getElementById("no-data-message");
-  const chartContainer = document.getElementById("chart-container");
-
-  // -------------------------------
-  // No data at all
-  // -------------------------------
-  if (!hasAngles && !hasDistances) {
-    chartContainer.style.display = "none";
-
-    messageBox.classList.remove("hidden");
-    messageBox.innerHTML = "No data available for this workout.";
-  } else {
-
-    chartContainer.innerHTML = "";
-    chartContainer.style.display = "block";
-
-    // -------------------------------
-    // Create wrapper
-    // -------------------------------
-    function createWrapper() {
-      const wrapper = document.createElement("div");
-      wrapper.style.height = "50%";
-      wrapper.style.width = "100%";
-      chartContainer.appendChild(wrapper);
-      return wrapper;
-    }
-
-    // -------------------------------
-    // Create chart or empty state
-    // -------------------------------
-    function renderChart(wrapper, title, inputData, yName, yMax, hasData) {
-
-      if (!hasData) {
-        wrapper.innerHTML = `
-          <div style="
-            height:100%;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            color:#888;
-            font-size:14px;
-          ">
-            No ${title.toLowerCase()} data available
-          </div>
-        `;
-        return;
+    <script>
+      function goBack() {
+        window.location.replace("/portal/get-my-exercises");
       }
 
-      const series = Object.entries(inputData).map(([name, points]) => ({
-        name,
-        type: "line",
-        smooth: true,
-        data: points.map(p => [p.x, p.y]),
-        markArea: {
-          itemStyle: {
-            color: "rgba(0, 255, 0, 0.1)"
-          },
-          data: cyclesData
+      const rawData = <%- JSON.stringify(data) %>;
+      const cyclesData = <%- JSON.stringify(cycles) %>;
+
+      const angleData = rawData?.angles || {};
+      const distanceData = rawData?.distances || {};
+
+      const hasAngles = Object.keys(angleData).length > 0;
+      const hasDistances = Object.keys(distanceData).length > 0;
+
+      const messageBox = document.getElementById("no-data-message");
+      const chartContainer = document.getElementById("chart-container");
+
+      // -------------------------------
+      // No data at all
+      // -------------------------------
+      if (!hasAngles && !hasDistances) {
+        chartContainer.style.display = "none";
+
+        messageBox.classList.remove("hidden");
+        messageBox.innerHTML = "No data available for this workout.";
+      } else {
+
+        chartContainer.innerHTML = "";
+        chartContainer.style.display = "block";
+
+        // -------------------------------
+        // Create wrapper
+        // -------------------------------
+        function createWrapper() {
+          const wrapper = document.createElement("div");
+          wrapper.style.height = "50%";
+          wrapper.style.width = "100%";
+          chartContainer.appendChild(wrapper);
+          return wrapper;
         }
-      }));
 
-      const option = {
-        title: { text: title },
-        tooltip: { trigger: "axis" },
-        legend: { data: Object.keys(inputData) },
-        xAxis: {
-          type: "time",
-          name: "Time"
-        },
-        yAxis: {
-          type: "value",
-          name: yName,
-          min: 0,
-          max: yMax
-        },
-        series
-      };
+        // -------------------------------
+        // Create chart or empty state
+        // -------------------------------
+        function renderChart(wrapper, title, inputData, yName, yMax, hasData) {
 
-      const chart = echarts.init(wrapper);
-      chart.setOption(option);
+          if (!hasData) {
+            wrapper.innerHTML = `
+              <div style="
+                height:100%;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                color:#888;
+                font-size:14px;
+              ">
+                No ${title.toLowerCase()} data available
+              </div>
+            `;
+            return;
+          }
 
-      window.addEventListener("resize", () => chart.resize());
-    }
+          const series = Object.entries(inputData).map(([name, points]) => ({
+            name,
+            type: "line",
+            smooth: true,
+            data: points.map(p => [p.x, p.y]),
+            markArea: {
+              itemStyle: {
+                color: "rgba(0, 255, 0, 0.1)"
+              },
+              data: cyclesData
+            }
+          }));
 
-    // -------------------------------
-    // Always render both
-    // -------------------------------
+          const option = {
+            title: { text: title },
+            tooltip: { trigger: "axis" },
+            legend: { data: Object.keys(inputData) },
+            xAxis: {
+              type: "time",
+              name: "Time"
+            },
+            yAxis: {
+              type: "value",
+              name: yName,
+              min: 0,
+              max: yMax
+            },
+            series
+          };
 
-    const angleWrapper = createWrapper();
-    renderChart(
-      angleWrapper,
-      "Angles Chart",
-      angleData,
-      "Angle (°)",
-      360,
-      hasAngles
-    );
+          const chart = echarts.init(wrapper);
+          chart.setOption(option);
 
-    const distanceWrapper = createWrapper();
-    renderChart(
-      distanceWrapper,
-      "Distance Chart",
-      distanceData,
-      "Percent (%)",
-      100,
-      hasDistances
-    );
-  }
-</script>
+          window.addEventListener("resize", () => chart.resize());
+        }
+
+        // -------------------------------
+        // Always render both
+        // -------------------------------
+
+        const angleWrapper = createWrapper();
+        renderChart(
+          angleWrapper,
+          "Angles Chart",
+          angleData,
+          "Angle (°)",
+          360,
+          hasAngles
+        );
+
+        const distanceWrapper = createWrapper();
+        renderChart(
+          distanceWrapper,
+          "Distance Chart",
+          distanceData,
+          "Percent (%)",
+          100,
+          hasDistances
+        );
+      }
+    </script>
   </body>
 </html>
