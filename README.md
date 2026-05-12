@@ -183,7 +183,7 @@ bun run dist/src/main.js
 
 The complete portal documentation is available in [portal-document.md](./portal-document.md).
 
-## 📊 API Output Documentation
-To view the detailed JSON structure of the motion detection engine output (including cycles, timelines, and joint angles), please refer to the following documentation:
+## 📊 Exercise Page Output
+To view the detailed structure of the motion detection engine results (including cycles, timelines, and joint angles), please refer to the following documentation:
 
 👉 [View Exercise Output Documentation](EXERCISE_OUTPUT.md)
