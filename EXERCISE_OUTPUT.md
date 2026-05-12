@@ -20,13 +20,13 @@ To ensure accuracy, the engine validates movements based on specific target pose
 
 ### Pose 1: Starting Position
 <div align="center">
-  <img src="public/pose-1.jpg" width="450" alt="Pose 1 Definition">
+  <img src="img/pose-1.jpg" width="450" alt="Pose 1 Definition">
   <p><b>Acceptable Range:</b> Joint angles must be within the highlighted zones to trigger the "In Pose" state. This represents the starting position of the movement.</p>
 </div>
 
 ### Pose 2: Target Position
 <div align="center">
-  <img src="public/pose-2.jpg" width="450" alt="Pose 2 Definition">
+  <img src="img/pose-2.jpg" width="450" alt="Pose 2 Definition">
   <p><b>Acceptable Range:</b> This pose represents the peak of the movement. Full range of motion is required to validate the repetition. Joint angles must reach the designated threshold.</p>
 </div>
 
