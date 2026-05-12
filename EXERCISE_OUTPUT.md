@@ -1,13 +1,10 @@
-# API Response Documentation & Exercise Definitions
+# Exercise Output Documentation & Definitions
 
 ## 🎥 Demonstration
 
 <div align="center">
 
-  
-
 https://github.com/user-attachments/assets/6cde6456-6c7c-49bf-a7a2-8c6f91a38499
-
 
   <p><i>Real-time exercise detection and joint angle tracking.</i></p>
 </div>
@@ -33,7 +30,7 @@ To ensure accuracy, the engine validates movements based on specific target pose
 ---
 
 ## Overview
-This API response provides a structured JSON object containing data related to **Body Pose** detection, joint angles, and their corresponding timing. The system monitors the user's physical orientation and movements to categorize them into cycles and continuous timelines.
+This output provides a structured JSON object containing data related to **Body Pose** detection, joint angles, and their corresponding timing. The system monitors the user's physical orientation and movements to categorize them into cycles and continuous timelines.
 
 ### Key Concepts
 * **Body Pose**: The specific orientation or position of the user's body limbs and torso at a given moment, recognized by the detection engine.
