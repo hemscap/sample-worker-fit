@@ -3,9 +3,12 @@
 ## 🎥 Demonstration
 
 <div align="center">
-  <video src="public/exercise.mp4" controls width="100%" style="max-height: 400px;">
-    Your browser does not support the video tag.
-  </video>
+
+  
+
+https://github.com/user-attachments/assets/6cde6456-6c7c-49bf-a7a2-8c6f91a38499
+
+
   <p><i>Real-time exercise detection and joint angle tracking.</i></p>
 </div>
 
