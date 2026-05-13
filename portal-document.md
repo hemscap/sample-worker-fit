@@ -35,16 +35,16 @@ It empowers **regular users, fitness enthusiasts, physiotherapists, and professi
 
 ## 🚀 Highlights & Features
 
-| Feature                        | Description                                      | Status |
-|-------------------------------|--------------------------------------------------|--------|
-| **Real-time Motion Tracking** | Precise joint angle & distance analysis         | ✅     |
-| **Multi-Camera System**       | Simultaneous front, left, right views            | ✅     |
-| **Multi-Stage Workouts**      | Unlimited phases per exercise                    | ✅     |
-| **Timeline Analysis**         | Detailed movement breakdown over time            | ✅     |
-| **Smart Pose Generation**     | Automatically generate correct poses             | ✅     |
-| **3D Visual Feedback**        | Interactive animated models                      | ✅     |
-| **User-Friendly Interface**   | Intuitive for all skill levels                   | ✅     |
-| **Powerful API & Webhooks**   | Seamless integration with your platform          | ✅     |
+| Feature                       | Description                             | Status |
+| ----------------------------- | --------------------------------------- | ------ |
+| **Real-time Motion Tracking** | Precise joint angle & distance analysis | ✅     |
+| **Multi-Camera System**       | Simultaneous front, left, right views   | ✅     |
+| **Multi-Stage Workouts**      | Unlimited phases per exercise           | ✅     |
+| **Timeline Analysis**         | Detailed movement breakdown over time   | ✅     |
+| **Smart Pose Generation**     | Automatically generate correct poses    | ✅     |
+| **3D Visual Feedback**        | Interactive animated models             | ✅     |
+| **User-Friendly Interface**   | Intuitive for all skill levels          | ✅     |
+| **Powerful API & Webhooks**   | Seamless integration with your platform | ✅     |
 
 ---
 
@@ -53,27 +53,29 @@ It empowers **regular users, fitness enthusiasts, physiotherapists, and professi
 You can integrate **Exercise Engine** in two ways:
 
 ### 1. **Gateway / Redirect Integration** (Recommended)
+
 Easiest and fastest way to embed the platform into your existing website or app.
 
 ### 2. **Custom Application Development**
+
 For fully branded, standalone solutions.
 
 ---
 
 ## 📡 Related Systems
 
-| System              | URL                                      | Purpose |
-|---------------------|------------------------------------------|--------|
-| **Main Portal**     | [portal.hooshtavan.com](https://portal.hooshtavan.com/) | End-user interface |
-| **Platform Manager**| [platform.hooshtavan.com](https://platform.hooshtavan.com/) | API Key & Token Management |
-| **API Base**        | `https://api.platform.hooshtavan.com`    | All programmatic requests |
-| **Swagger Docs**    | [/info](https://api.platform.hooshtavan.com/info) | Full API documentation |
+| System               | URL                                                   | Purpose                    |
+| -------------------- | ----------------------------------------------------- | -------------------------- |
+| **Main Portal**      | [portal.hemscap.com](https://portal.hemscap.com/)     | End-user interface         |
+| **Platform Manager** | [platform.hemscap.com](https://platform.hemscap.com/) | API Key & Token Management |
+| **API Base**         | `https://api.platform.hemscap.com`                    | All programmatic requests  |
+| **Swagger Docs**     | [/info](https://api.platform.hemscap.com/info)        | Full API documentation     |
 
 ---
 
 ## 🚀 Quick Start
 
-1. Register at [platform.hooshtavan.com](https://platform.hooshtavan.com/auth/register)
+1. Register at [platform.hemscap.com](https://platform.hemscap.com/auth/register)
 2. Create an **Access Token** with required scopes (`read`, `create`, `modify`, `execute`)
 3. Configure your **Webhook URL** (for execution results)
 4. Start testing with **Postman** or **Swagger UI**
@@ -88,3 +90,4 @@ For fully branded, standalone solutions.
 GET    /exercise/search                    # Search available exercises
 POST   /exercise/append-exercise/{key}     # Add predefined exercise
 GET    /exercise/me                        # Get my exercises
+```

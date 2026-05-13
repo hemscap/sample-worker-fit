@@ -121,11 +121,11 @@ JWT_SECRET=your-jwt-secret
 DEFAULT_USER=demo@example.com
 DEFAULT_PASS=demo-password
 ACCESS_TOKEN=YOUR_PLATFORM_ACCESS_TOKEN
-API_GET_MY_EXERCISES=https://api.platform.hooshtavan.com/v1/api/platform/portal/info-swagger/exercise/me
-API_REDIRECT_EXECUTE_EXERCISE=https://api.platform.hooshtavan.com/v1/api/platform/portal/info-swagger/exercise/execute/{exerciseKey}
-API_REDIRECT_CREATE_EXERCISE=https://api.platform.hooshtavan.com/v1/api/platform/portal/info-swagger/exercise-redirect/create
-API_REDIRECT_MODIFY_EXERCISE=https://api.platform.hooshtavan.com/v1/api/platform/portal/info-swagger/exercise-redirect/{exerciseKey}/modify
-API_GET_EXERCISE_IMAGE=https://api.platform.hooshtavan.com/v1/api/platform/portal/info-swagger/exercise/image/{exerciseKey}/{poseId}
+API_GET_MY_EXERCISES=https://api.platform.hemscap.com/v1/api/platform/portal/info-swagger/exercise/me
+API_REDIRECT_EXECUTE_EXERCISE=https://api.platform.hemscap.com/v1/api/platform/portal/info-swagger/exercise/execute/{exerciseKey}
+API_REDIRECT_CREATE_EXERCISE=https://api.platform.hemscap.com/v1/api/platform/portal/info-swagger/exercise-redirect/create
+API_REDIRECT_MODIFY_EXERCISE=https://api.platform.hemscap.com/v1/api/platform/portal/info-swagger/exercise-redirect/{exerciseKey}/modify
+API_GET_EXERCISE_IMAGE=https://api.platform.hemscap.com/v1/api/platform/portal/info-swagger/exercise/image/{exerciseKey}/{poseId}
 DB_PATH=database/database.db
 ```
 
@@ -184,6 +184,7 @@ bun run dist/src/main.js
 The complete portal documentation is available in [portal-document.md](./portal-document.md).
 
 ## 📊 Exercise Page Output
+
 To view the detailed structure of the motion detection engine results (including cycles, timelines, and joint angles), please refer to the following documentation:
 
 👉 [View Exercise Output Documentation](EXERCISE_OUTPUT.md)
