@@ -68,11 +68,12 @@ Each item in the `cycles` array represents a general time frame containing recog
 | `poseId` | String (UUID) | Reference ID for the type of pose. |
 | `poseName` | String | The human-readable name of the pose (e.g., "pose 1"). |
 | `angles` | Object | Numerical values representing the joint angles measured during this pose. |
+| `conditionPoses` | Array | Array of values representing The distance conditions that have been set in the Exercise Engine. |
 
 ---
 
 ## 2. Timelines Object
-The `timelines` section represents a continuous sequence of time segments.
+The `timelines` section represents a continuous sequence of time segments. This section also indicates how quickly or slowly the exercise was completed.
 
 ### Pose vs. Gap
 In the timeline, every segment is classified into one of two states:
@@ -102,35 +103,265 @@ In the timeline, every segment is classified into one of two states:
 
 ```json
 {
-  "cycles": [
-    {
-      "from": 1777973693647,
-      "poses": [
-        {
-          "id": "c4f52695-b903-4ace-8737-7e60cd3814be",
-          "from": 1777973693647,
-          "to": 1777973694708,
-          "poseId": "b063148e-1050-4be0-af04-60a6c3420844",
-          "poseName": "pose 1",
-          "angles": {
-            "Left Shoulder": 20,
-            "Left Elbow": 26
+  "error": false,
+  "message": "",
+  "mode": "execute",
+  "data": {
+    "cycles": [
+      {
+        "from": 1779194438336,
+        "poses": [
+          {
+            "id": "d7122aa1-1689-4de3-964b-d37473488da7",
+            "from": 1779194438336,
+            "to": 1779194441778,
+            "poseId": "dbfc81f0-1ed6-49ac-ae45-3713071effd3",
+            "poseName": "Pose 1",
+            "angels": {},
+            "conditionPoses": [
+              {
+                "label": "neck",
+                "result": true,
+                "data": {
+                  "angle": 6,
+                  "percent": 92,
+                  "direction": "right"
+                }
+              }
+            ]
           },
-          "conditionPoses": []
-        }
-      ],
-      "to": 1777973698918
-    }
-  ],
-  "timelines": [
-    {
-      "id": "dd175807-68ab-4c51-b6c5-8e0c7d08e6f0",
-      "from": 1777973688163,
-      "to": 1777973689026,
-      "angles": {
-        "Left Shoulder": 60,
-        "Left Elbow": 16
-      }
-    }
-  ]
+          {
+            "id": "598d5a3b-91cf-4121-bb94-ca762e74d034",
+            "from": 1779194441836,
+            "to": 1779194444514,
+            "poseId": "e8722f23-b987-457f-b453-cd418f8227fe",
+            "poseName": "Pose 2",
+            "angels": {},
+            "conditionPoses": [
+              {
+                "label": "neck",
+                "result": true,
+                "data": {
+                  "angle": 33,
+                  "percent": 56,
+                  "direction": "right"
+                }
+              }
+            ]
+          }
+        ],
+        "to": 1779194444579
+      },
+      {
+        "from": 1779194444579,
+        "poses": [
+          {
+            "id": "51846f6f-894a-472a-8761-0c3435c45868",
+            "from": 1779194444579,
+            "to": 1779194447115,
+            "poseId": "dbfc81f0-1ed6-49ac-ae45-3713071effd3",
+            "poseName": "Pose 1",
+            "angels": {},
+            "conditionPoses": [
+              {
+                "label": "neck",
+                "result": true,
+                "data": {
+                  "angle": 25,
+                  "percent": 67,
+                  "direction": "right"
+                }
+              }
+            ]
+          },
+          {
+            "id": "d6141372-5095-44df-9c97-1448385db0df",
+            "from": 1779194447181,
+            "to": 1779194449943,
+            "poseId": "e8722f23-b987-457f-b453-cd418f8227fe",
+            "poseName": "Pose 2",
+            "angels": {},
+            "conditionPoses": [
+              {
+                "label": "neck",
+                "result": true,
+                "data": {
+                  "angle": 32,
+                  "percent": 57,
+                  "direction": "left"
+                }
+              }
+            ]
+          }
+        ],
+        "to": 1779194449943
+      }],
+    "timelines": [
+      {
+        "id": "d7122aa1-1689-4de3-964b-d37473488da7",
+        "from": 1779194438336,
+        "to": 1779194441778,
+        "poseId": "dbfc81f0-1ed6-49ac-ae45-3713071effd3",
+        "poseName": "Pose 1",
+        "angels": {},
+        "conditionPoses": [
+          {
+            "label": "neck",
+            "result": true,
+            "data": {
+              "angle": 6,
+              "percent": 92,
+              "direction": "right"
+            }
+          }
+        ]
+      },
+      {
+        "id": "647119ed-9f52-4a95-ba2f-0cb660cfaf15",
+        "from": 1779194441778,
+        "to": 1779194441836,
+        "angels": {}
+      },
+      {
+        "id": "598d5a3b-91cf-4121-bb94-ca762e74d034",
+        "from": 1779194441836,
+        "to": 1779194444514,
+        "poseId": "e8722f23-b987-457f-b453-cd418f8227fe",
+        "poseName": "Pose 2",
+        "angels": {},
+        "conditionPoses": [
+          {
+            "label": "neck",
+            "result": true,
+            "data": {
+              "angle": 33,
+              "percent": 56,
+              "direction": "right"
+            }
+          }
+        ]
+      },
+      {
+        "id": "2ce2d87a-5e19-4d2c-8c34-10d154885d10",
+        "from": 1779194444514,
+        "to": 1779194444579,
+        "angels": {}
+      },
+      {
+        "id": "51846f6f-894a-472a-8761-0c3435c45868",
+        "from": 1779194444579,
+        "to": 1779194447115,
+        "poseId": "dbfc81f0-1ed6-49ac-ae45-3713071effd3",
+        "poseName": "Pose 1",
+        "angels": {},
+        "conditionPoses": [
+          {
+            "label": "neck",
+            "result": true,
+            "data": {
+              "angle": 25,
+              "percent": 67,
+              "direction": "right"
+            }
+          }
+        ]
+      },
+      {
+        "id": "eb85dce2-c2cd-4dc7-853b-6f9ec44992a5",
+        "from": 1779194447115,
+        "to": 1779194447181,
+        "angels": {}
+      },
+      {
+        "id": "d6141372-5095-44df-9c97-1448385db0df",
+        "from": 1779194447181,
+        "to": 1779194449943,
+        "poseId": "e8722f23-b987-457f-b453-cd418f8227fe",
+        "poseName": "Pose 2",
+        "angels": {},
+        "conditionPoses": [
+          {
+            "label": "neck",
+            "result": true,
+            "data": {
+              "angle": 32,
+              "percent": 57,
+              "direction": "left"
+            }
+          }
+        ]
+      },
+      {
+        "id": "525ba19b-0b61-4af2-89e9-5eb64fca2758",
+        "from": 1779194449943,
+        "to": 1779194452250,
+        "poseId": "dbfc81f0-1ed6-49ac-ae45-3713071effd3",
+        "poseName": "Pose 1",
+        "angels": {},
+        "conditionPoses": [
+          {
+            "label": "neck",
+            "result": true,
+            "data": {
+              "angle": 28,
+              "percent": 63,
+              "direction": "left"
+            }
+          }
+        ]
+      },
+      {
+        "id": "8e0e3e4e-c9c0-423e-9d9f-7e19084f4306",
+        "from": 1779194452250,
+        "to": 1779194452325,
+        "angels": {}
+      },
+      {
+        "id": "cad45716-87d2-4d4f-9951-17209fd1b8ec",
+        "from": 1779194452325,
+        "to": 1779194455154,
+        "poseId": "e8722f23-b987-457f-b453-cd418f8227fe",
+        "poseName": "Pose 2",
+        "angels": {},
+        "conditionPoses": [
+          {
+            "label": "neck",
+            "result": true,
+            "data": {
+              "angle": 33,
+              "percent": 56,
+              "direction": "right"
+            }
+          }
+        ]
+      },
+      {
+        "id": "6d59e0e9-80bd-4bc9-9e98-bc9343c96f94",
+        "from": 1779194455154,
+        "to": 1779194457041,
+        "poseId": "dbfc81f0-1ed6-49ac-ae45-3713071effd3",
+        "poseName": "Pose 1",
+        "angels": {},
+        "conditionPoses": [
+          {
+            "label": "neck",
+            "result": true,
+            "data": {
+              "angle": 27,
+              "percent": 64,
+              "direction": "right"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ae0b968e-61a0-446c-a27c-8dfa2033da59",
+        "from": 1779194457041,
+        "to": 1779194457113,
+        "angels": {}
+      } 
+    ]
+  },
+  "exerciseKey": "3dcd3b82-9102-44fa-ac33-ae450c09598b",
+  "metadata": "sampleUserDataForModify"
 }
