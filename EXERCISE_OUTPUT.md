@@ -68,7 +68,7 @@ Each item in the `cycles` array represents a general time frame containing recog
 | `poseId` | String (UUID) | Reference ID for the type of pose. |
 | `poseName` | String | The human-readable name of the pose (e.g., "pose 1"). |
 | `angles` | Object | Numerical values representing the joint angles measured during this pose. |
-| `conditionPoses` | Array | Array of values representing The distance conditions that have been set in the Exercise Engine. |
+| `conditionPoses` | Array | Array of values representing The distance conditions or custom conditions that have been set in the Exercise Engine. |
 
 ---
 
